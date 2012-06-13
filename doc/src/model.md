@@ -33,5 +33,7 @@ e_n
 &=& M_3 1_n
 \end{eqnarray}
 - \begin{eqnarray}
-E e^Tee^Te &=& E \left(\sum \limits_{i=1}^n{e_i^2}\right)^2
+E e^Tee^Te &=& E \left(\sum \limits_{i=1}^n{e_i^2}\right)^2 \nonumber \\
+&=& E\left(\sum \limits_{i=1}^n{e_i^4} + \sum\limits {i \neq j} {e_i^2e_j^2}\right) \nonumber \\
+&=& n M_4 + n(n-1) M_2^2
 \end{eqnarray}
