@@ -31,7 +31,7 @@ Moreover, we let \begin{eqnarray}
 &=& (\Lambda_{i,j}) \in \Re^{n \times n},
 \end{eqnarray} where \begin{eqnarray}
 \Lambda_{i,j} &=& \sum \limits_{k=1}^{n-m} {\Phi_{k,i} \Phi_{k,j}} \nonumber \\
-&=& \sum \limits_{k=1}^{n-m} {\phi_{k-i} \phi_{k-j}}. \label{eq:lambda_entry}
+&=& \sum \limits_{k=1}^{n-m} {\phi_{k-i} \phi_{k-j}}. \label{eq:lambda-entry}
 \end{eqnarray}
 
 # Moments of filtered error
@@ -69,9 +69,20 @@ E \Phi e e^T \Phi^T \Phi e &=& M_3 \Phi \left(\begin{array}{c}
 \vdots \\
 \sum \limits_{j=1}^n{\Phi_{n-m,j} \Lambda_{j,j}}
 \end{array}\right). \nonumber
-\end{eqnarray} According to Eq.~\ref{eq:lambda_entry}, \begin{eqnarray}
-E \Phi e e^T \Phi^T \Phi e
+\end{eqnarray} According to Eq. \ref{eq:lambda-entry}, \begin{eqnarray}
+E \Phi e e^T \Phi^T \Phi e &=& M_3 \left(\begin{array}{c}
+\sum \limits_{j=1}^n { \sum \limits_{k=1}^{n-m} { \phi_{1-j} \phi_{k-j}^2 } } \\
+\sum \limits_{j=1}^n { \sum \limits_{k=1}^{n-m} { \phi_{2-j} \phi_{k-j}^2 } } \\
+\vdots \\
+\sum \limits_{j=1}^n { \sum \limits_{k=1}^{n-m} { \phi_{n-m-j} \phi_{k-j}^2 } } 
+\end{array}\right) \nonumber
 \end{eqnarray}
+- \begin{eqnarray} 
+E e^T \Phi^T \Phi e e^T \Phi^T \Phi e &=& E (\sum \limits_{i,j} { \Lambda_{i,j} e_i e_j })^2 \nonumber \\
+&=& E (\sum \limits_{i,j,k,l} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) \nonumber \\
+&=& M_4 \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i \neq j} {\Lambda_{i,i} \Lambda_{j,j} + \Lambda_{i,j}^2} \nonumber
+\end{eqnarray}
+
 
 
 
