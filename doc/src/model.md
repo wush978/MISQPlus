@@ -1,6 +1,6 @@
 # Notations
 
-- $X = (x_1, x_2, ..., x_n)^T$ is a $n$-dim random vector of observed time series.
+- $X = (X_1, X_2, ..., X_n)^T$ is a $n$-dim random vector of observed time series.
 - $\mu = (\mu_1, \mu_2, ..., \mu_n)^T \in \Re^n$ is the unobserved truth.
 - $e = (e_1, e_2, ..., e_n)^T$ is a $n$-dim random vector which represents the random error.
 
