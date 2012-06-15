@@ -1,0 +1,19 @@
+Introduction:
+    _content: |
+        利用R的模擬來驗證計算結果
+model.pdf:
+    second moment:
+        _content: |
+            $latex E e^T e$
+            ``` {r 2nd_moment,echo=FALSE,message=FALSE}
+            source('preModel.R')
+            fun <- function(x) {
+                e <- generator(n)
+                t(e)%*%e
+            }
+            cat("\n")
+            sm.density( sapply(1:sample_size, fun), xlab = '' )
+            abline(v = n * M_2$value, col='red', lty=2 )
+            legend('topright', 'Theoretical Result', lty = 2, col = 'red')
+            ```
+    
