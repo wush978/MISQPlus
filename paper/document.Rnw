@@ -5,15 +5,79 @@
 \begin{document}
 
 
-\section{Title}
+\section{Condition and Property of MISQ Filter} \label{sec:condition-property-MISQ-filter}
 
-\subsection{Subtitle}
+\subsection{Modeling Time Series} \label{sec:modeling-time-series }
 
-Plain text.
+We follow the model of time series in the literature. Suppose $X = (X_1, X_2,
+\cdots, X_n)^T$ is the underlying random vector of observed time series, we
+assume \begin{eqnarray}
+X = \mu + e, \label{eq:model-X}
+\end{eqnarray} where $\mu = (\mu_1, \mu_2, \cdots, \mu_n)^T \in \Re^n$ and $e =
+(e_1, e_2, \cdots, e_n)^T$ is a zero-mean random vector. 
 
-\subsection{Another subtitle}
+For $e$, we assume that $e$ has following properties:
+\begin{itemize}
+\item
+  $e_1, e_2, ..., e_n$ are identical and independent distributed (i.i.d.). We
+  denote the distribution of $e_i$ as $\varepsilon$. This assumption makes our
+  work much more easily and is common in the literature such as %TODO
+\item
+  $E \varepsilon = 0$. 
+\item
+  $E \varepsilon^k \mbox{ are existed and bounded for }k=2,3,4$.
+\end{itemize}
+The moments of $e$ are listed in Table \ref{moment-e}.
 
-More plain text.
+\begin{table} 
+\centering
+\begin{tabular}{ | c | c | }
+  $f(e)$ & $Ef(e)$ \\
+  \hline
+  $e^T e$ & $n M_2$ \\
+  $ee^Te$ & $M_3 1_n$ \\
+  $e^Tee^Te$ & $n M_4 + n(n-1) M_2^2$ \\
+\end{tabular}
+\caption{The moments of $e$.} \label{table:moment-e}
+\end{table}
+
+For $\mu$, we assume that $\mu$ is continuous which is expressed mathematically
+as: \begin{eqnarray}
+\mu_i \approx \mu_{i+1}. \label{eq:model-mu}
+\end{eqnarray} 
+
+Many readers might not agree with this assumption, but it is existed in many
+existed work and needed to handle time series without multiple observations for
+each time stamp.
+
+Moving average is a popular techniques to estimate the $\mu$ in model
+\ref{eq:model-X}: 
+\begin{eqnarray}
+\hat{\mu_i} &=& \frac{1}{2h+1}\sum \limits_{k=-h}^h {X_{i+k}} \nonumber \\
+&=& \frac{1}{2h+1}\sum \limits_{k=-h}^h {\mu_{i+k} + e_{i+k}} \nonumber \\
+&=& \frac{1}{2h+1}\sum \limits_{k=-h}^h {\mu_{i+k}} + \frac{1}{2h+1}\sum \limits_{k=-h}^h {e_{i+k}}.
+\end{eqnarray}
+Under the i.i.d. assumption of $e_i$, the variance is reduced from $M_2$ to $\frac{1}{2h+1}M_2$, 
+so $\hat{\mu_i}$ might be more closer to $\mu$ compared to $X_i$ if $\mu_i \approx
+\frac{1}{2h+1}\sum \limits_{k=-h}^h {\mu_{i+k}}$. Therefore, the reader should notice that moving
+average also assumes Eq \ref{eq:model-mu} intrinsically.
+
+\subsection{Linear Filtered Time Series}
+
+In this paper, we define the linear filtered time series $\tilde{X}$ as
+\begin{eqnarray}
+\tilde{X}_i = \left\{ \begin{array} {l} 
+\sum \limits_{k=0}^m {\phi_k X_i}. \label{eq:filter-X}
+0
+\end{array} \right. \begin{array} {l}
+\mbox{if } i \geq 0 \mbox{ and } i \leq n-m
+otherwise
+\end{array}.
+\end{eqnarray} We extend the range of subscribe for convenience.
+
+If $\phi = (-1, 1)^T$, the filtered time series is the one in
+\ref{MISQ}. If $\phi = (\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5},
+\frac{1}{5})$, the filtered time series is the moving averaged time series.
 
 
 \end{document}
