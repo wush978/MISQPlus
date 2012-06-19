@@ -127,6 +127,11 @@ in practice if $m$ is small.
 
 \subsection{MISQ distance estimator and variance}
 
+If there are two time series $S_1$ and $S_2$ in model \ref{eq:model-X} and
+model \ref{eq:model-mu}, let $X = S_1 - S_2$ is still in model \ref{eq:model-X}
+and model \ref{eq:model-mu}. The sum of square of $\mu^T \mu$ is the
+distance between $S_1$ and $S_2$ without the errors.  
+
 
 
 \end{document}
