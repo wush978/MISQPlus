@@ -67,17 +67,66 @@ average also assumes Eq \ref{eq:model-mu} intrinsically.
 In this paper, we define the linear filtered time series $\tilde{X}$ as
 \begin{eqnarray}
 \tilde{X}_i = \left\{ \begin{array} {l} 
-\sum \limits_{k=0}^m {\phi_k X_i}. \label{eq:filter-X}
+\sum \limits_{k=0}^m {\phi_k X_i} \\
 0
 \end{array} \right. \begin{array} {l}
-\mbox{if } i \geq 0 \mbox{ and } i \leq n-m
+\mbox{if } i \geq 1 \mbox{ and } i \leq n-m \\
 otherwise
-\end{array}.
+\end{array} \label{eq:filter-X} 
 \end{eqnarray} We extend the range of subscribe for convenience.
 
 If $\phi = (-1, 1)^T$, the filtered time series is the one in
 \ref{MISQ}. If $\phi = (\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5},
 \frac{1}{5})$, the filtered time series is the moving averaged time series.
+
+To write the formula in matrix form, we let $\Phi$ be a $(n-m) \times n$ matrix
+with $i$-th row and $j$-th column entries \begin{eqnarray} 
+\Phi_{i,j} &=& \phi_{i-j}. \label{eq:definition-Phi_ij}
+\end{eqnarray}
+Therefore, the filtered time series is $\Phi X$.
+
+Here, we add a constraint to $\phi$: \begin{eqnarray}
+  \sum \limits_{k=0}^m{\phi_k} = 0. \label{eq:model-phi}
+\end{eqnarray}
+
+When $m << n$, we combine the Eq \ref{eq:model-mu} and Eq \ref{eq:model-phi}: 
+\begin{eqnarray}
+  \Phi X &=& \Phi \mu + \Phi e \quad \mbox{according to Eq \ref{eq:model-X}} \nonumber \\
+  &\approx& \Phi e. \label{eq:model-Phi-X} 
+\end{eqnarray} The last approximation holds because of \begin{eqnarray}
+  \sum \limits_{k=0}^m {\phi_{i+k} \mu_{i+k}} &\approx& \sum \limits_{k=0}^m {\phi_{i+k} \mu_i} \nonumber \\
+  &=& 0.
+\end{eqnarray}
+
+Therefore, we have an approximation of $\Phi e$. To make inference according to
+$\Phi e$, we list the moments of $\Phi e$ in Table \ref{table:moment-Phie}. 
+We derive moment estimators for $M_2$, $M_3$, and $M_4$.
+
+Note that we define a $n \times n$ matrix $\Lambda$ as $\Phi^T \Phi$ for
+convenience.
+The vector $diag(\Lambda) = (\Lambda_{1,1}, \Lambda_{2,2}, \cdots,
+\Lambda_{n,n})^T \in \Re^n$ is the diagonal vector of $\Lambda$. The
+$tr(\Lambda)$ is the trace of $\Lambda$.
+
+
+
+\begin{table} 
+\centering
+\begin{tabular}{ | c | c | }
+  $f(e)$ & $Ef(e)$ \\
+  \hline
+  $e^T \Phi^T \Phi e$ & $M_2 (n-m) \sum \limits_{k=1}^m {\phi_k^2}$ \\
+  $\Phi ee^T \Phi^T \Phi e$ & $M_3 \Phi diag(\Lambda) $ \\
+  $e^T \Phi^T \Phi e e^T \Phi^T \Phi e$ & $M_4 \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i \neq j} {\Lambda_{i,i} \Lambda_{j,j} + \Lambda_{i,j}^2}$ \\
+\end{tabular}
+\caption{The moments of $e$.} \label{table:moment-Phie}
+\end{table}
+
+The reader should notice that Eq \ref{eq:model-Phi-X} is more likely to be true
+in practice if $m$ is small.  
+
+\subsection{MISQ distance estimator and variance}
+
 
 
 \end{document}
