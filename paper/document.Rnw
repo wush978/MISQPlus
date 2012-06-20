@@ -161,7 +161,7 @@ The reader should notice that Eq \ref{eq:model-Phi-X} is more likely to be true
 in practice if $m$ is small.  
 
 \subsection{MISQ distance estimator and variance}
-\label{sec:misq-estimator-variance}
+\label{sec:misq-estimator-variance} 
 
 If there are two time series $S_1$ and $S_2$ in model \ref{eq:model-X} and
 model \ref{eq:model-mu}, let $X = S_1 - S_2$ is still in model \ref{eq:model-X}
@@ -175,14 +175,28 @@ We define the estimator of mean distance corresponding to $\phi$ as
 \end{eqnarray} because its expectation is \begin{eqnarray}
 E \hat{D}_{\phi}(X) &\approx& \frac{\mu^T \mu + E e^T e}{n} - \frac{E e^T \Phi^T \Phi e}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}} \nonumber \\
 &=& \frac{\mu^T \mu + nM_2}{n} - \frac{(n-m)M_2 \sum \limits_{k=1}^m {\phi_m^2}}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}} \nonumber \\
-&=& \frac{\mu^T\mu}{n}
+&=& \frac{\mu^T\mu}{n} \label{eq:hatD}
 \end{eqnarray}
 
 The variance of $\hat{D}_{\phi}(X)$ is \begin{eqnarray}
 Var(\hat{D}_{\phi}(X)) &=& \frac{1}{n^2} Var(X^TX) - 2 \frac{1}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} Cov(X^TX, X^T\Phi^T\Phi X) \nonumber \\
 &+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=1}^m {\phi_k^2} \right)^2} Var( X^T \Phi^T \Phi X) \nonumber \\
 &=& \frac{1}{n^2} \left(4 M_2 \mu^T \mu + 4 M_3 \mu^T 1_n + n M_4 - nM_2^2 \right) \nonumber \\
-&-& 2 \frac{1}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} \left( 2 M_3 \mu^T diag(\Lambda) + (M_4 - M_2^2)(n-m) \sum \limits_{k=0}^m { \phi_k^2 } \right) \nonumber \\
+&-& \frac{2}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} \left( 2 M_3 \mu^T diag(\Lambda) + (M_4 - M_2^2)(n-m) \sum \limits_{k=0}^m { \phi_k^2 } \right) \nonumber \\
+&+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=1}^m {\phi_k^2} \right)^2} \left( (M_4 - 2M_2^2) \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i,j} {\Lambda_{i,j}^2} \right) \nonumber \\
 \end{eqnarray}
+
+\subsection{Estimable}
+
+According to Table \ref{table:moment-Phie} and Eq \ref{eq:hatD}, we can replace
+some unobserved quantity such as $M_2, M_3, M_4, \mu^T\mu$ with their moment
+estimator. However, $\mu^T 1_n$ and $\mu^T diag(\Lambda)$ have no related moment
+estimator, so we must make sure that the coefficient corresponding to them are
+zero, i.e.
+\begin{equation}
+\frac{4M_3}{n^2} \mu^T 1_n - \frac{4M_3}{n(n-m)\sum \limits_{k=0}^m{\phi_k^2}} \mu^T diag(\Lambda) = 0.
+\end{equation}
+
+
 
 \end{document}
