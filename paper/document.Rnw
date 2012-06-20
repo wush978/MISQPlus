@@ -2,6 +2,13 @@
 %%There is just one section and two subsections.
 \documentclass{article}
 
+\newtheorem{property}{Property}
+\newenvironment{proof}[1][Proof]{
+\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]\end{trivlist}}
+
+\usepackage{showkeys}
+
 \begin{document}
 
 
@@ -67,7 +74,7 @@ average also assumes Eq \ref{eq:model-mu} intrinsically.
 In this paper, we define the linear filtered time series $\tilde{X}$ as
 \begin{eqnarray}
 \tilde{X}_i = \left\{ \begin{array} {l} 
-\sum \limits_{k=0}^m {\phi_k X_i} \\
+\sum \limits_{k=0}^m {\phi_k X_{i + k}} \\
 0
 \end{array} \right. \begin{array} {l}
 \mbox{if } i \geq 1 \mbox{ and } i \leq n-m \\
@@ -81,9 +88,11 @@ If $\phi = (-1, 1)^T$, the filtered time series is the one in
 
 To write the formula in matrix form, we let $\Phi$ be a $(n-m) \times n$ matrix
 with $i$-th row and $j$-th column entries \begin{eqnarray} 
-\Phi_{i,j} &=& \phi_{i-j}. \label{eq:definition-Phi_ij}
+\Phi_{i,j} &=& \phi_{j-i}. \label{eq:definition-Phi_ij}
 \end{eqnarray}
 Therefore, the filtered time series is $\Phi X$.
+
+
 
 Here, we add a constraint to $\phi$: \begin{eqnarray}
   \sum \limits_{k=0}^m{\phi_k} = 0. \label{eq:model-phi}
@@ -102,21 +111,47 @@ Therefore, we have an approximation of $\Phi e$. To make inference according to
 $\Phi e$, we list the moments of $\Phi e$ in Table \ref{table:moment-Phie}. 
 We derive moment estimators for $M_2$, $M_3$, and $M_4$.
 
-Note that we define a $n \times n$ matrix $\Lambda$ as $\Phi^T \Phi$ for
-convenience.
+Note that we define a $n \times n$ matrix $\Lambda = \Phi^T \Phi$ with its
+$i$-th row and $j$-th column entry $\Lambda_{i,j}$ for convenience.
 The vector $diag(\Lambda) = (\Lambda_{1,1}, \Lambda_{2,2}, \cdots,
 \Lambda_{n,n})^T \in \Re^n$ is the diagonal vector of $\Lambda$. The
-$tr(\Lambda)$ is the trace of $\Lambda$.
+$tr(\Lambda)$ is the trace of $\Lambda$. Here, we give two properties of $\Lambda$.
 
+\begin{property} \label{property:sum-diag-Lambda}
+\begin{equation}
+\sum \limits_{i=1}^n {\Lambda_{i,i}} = (n-m) \sum \limits_{k=0}^m{\phi_k^2}.
+\end{equation}
+\end{property}
 
+\begin{proof}
+We directly expand the definition of $\Lambda_{i,i}$ as follow: \begin{eqnarray}
+\sum \limits_{i=1}^n{\Lambda_{i,i}} &=& \sum \limits_{i=1}^n{ \sum \limits_{k=1}^(n-m) {\Phi_{k,i}^2}} \nonumber \\
+&=& \sum \limits_{i=1}^n{ \sum \limits_{k=1}^(n-m) {\phi_{i-k}^2}} \nonumber \\
+&=& \sum \limits_{k=1}^(n-m){ \sum \limits_{i=k}^{k+m}{\phi_{i-k}^2} } \nonumber \\
+&=& (n-m) \sum \limits_{k=0}^m{\phi_k^2} \nonumber
+\end{eqnarray}
+\end{proof}
+
+Property \ref{property:sum-diag-Lambda} will be used to evaluate the variance at
+the Subsection \ref{sec:misq-estimator-variance}.
+
+\begin{property} \label{property:diag-Lambda-equa}
+If $i > m$ and $i \leq n-m $, \begin{equation}
+\Lambda_{i,i} = \sum \limits_{k=0}^m{\phi_k^2}.
+\end{equation}
+\end{property}
+\begin{proof}
+Expand the definition of $\Lambda_{i,i}$ to prove this property.
+\end{proof}
 
 \begin{table} 
 \centering
 \begin{tabular}{ | c | c | }
   $f(e)$ & $Ef(e)$ \\
   \hline
-  $e^T \Phi^T \Phi e$ & $M_2 (n-m) \sum \limits_{k=1}^m {\phi_k^2}$ \\
-  $\Phi ee^T \Phi^T \Phi e$ & $M_3 \Phi diag(\Lambda) $ \\
+  $e^T \Phi^T \Phi e$ & $M_2 (n-m) \sum \limits_{k=0}^m {\phi_k^2}$ \\
+  $ee^T \Phi^T \Phi e$ & $M_3 diag(\Lambda) $ \\
+  $e^Tee^T\Phi^T \Phi e$ & $(M_4 + (n-1)M_2) (n-m) \sum \limits_{k=0}^m { \phi_k^2 }$ \\
   $e^T \Phi^T \Phi e e^T \Phi^T \Phi e$ & $M_4 \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i \neq j} {\Lambda_{i,i} \Lambda_{j,j} + \Lambda_{i,j}^2}$ \\
 \end{tabular}
 \caption{The moments of $e$.} \label{table:moment-Phie}
@@ -126,12 +161,28 @@ The reader should notice that Eq \ref{eq:model-Phi-X} is more likely to be true
 in practice if $m$ is small.  
 
 \subsection{MISQ distance estimator and variance}
+\label{sec:misq-estimator-variance}
 
 If there are two time series $S_1$ and $S_2$ in model \ref{eq:model-X} and
 model \ref{eq:model-mu}, let $X = S_1 - S_2$ is still in model \ref{eq:model-X}
 and model \ref{eq:model-mu}. The sum of square of $\mu^T \mu$ is the
-distance between $S_1$ and $S_2$ without the errors.  
+distance between $S_1$ and $S_2$ without errors. For better inference, we
+discuss the estimation of $\frac{\mu^T\mu}{n}$ called \emph{mean distance} in
+this paper.
 
+We define the estimator of mean distance corresponding to $\phi$ as
+\begin{eqnarray} \hat{D}_{\phi}(X) = \frac{X^TX}{n} - \frac{X^T \Phi^T \Phi X}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}},
+\end{eqnarray} because its expectation is \begin{eqnarray}
+E \hat{D}_{\phi}(X) &\approx& \frac{\mu^T \mu + E e^T e}{n} - \frac{E e^T \Phi^T \Phi e}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}} \nonumber \\
+&=& \frac{\mu^T \mu + nM_2}{n} - \frac{(n-m)M_2 \sum \limits_{k=1}^m {\phi_m^2}}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}} \nonumber \\
+&=& \frac{\mu^T\mu}{n}
+\end{eqnarray}
 
+The variance of $\hat{D}_{\phi}(X)$ is \begin{eqnarray}
+Var(\hat{D}_{\phi}(X)) &=& \frac{1}{n^2} Var(X^TX) - 2 \frac{1}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} Cov(X^TX, X^T\Phi^T\Phi X) \nonumber \\
+&+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=1}^m {\phi_k^2} \right)^2} Var( X^T \Phi^T \Phi X) \nonumber \\
+&=& \frac{1}{n^2} \left(4 M_2 \mu^T \mu + 4 M_3 \mu^T 1_n + n M_4 - nM_2^2 \right) \nonumber \\
+&-& 2 \frac{1}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} \left( 2 M_3 \mu^T diag(\Lambda) + (M_4 - M_2^2)(n-m) \sum \limits_{k=0}^m { \phi_k^2 } \right) \nonumber \\
+\end{eqnarray}
 
 \end{document}
