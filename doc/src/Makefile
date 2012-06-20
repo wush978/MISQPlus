@@ -1,4 +1,4 @@
-all : model.pdf filter.pdf
+all : model.pdf filter.pdf misq.pdf
 
 model.pdf : model.tex
 	pdflatex model.tex
@@ -11,3 +11,9 @@ model.tex : model.md
 	
 filter.tex: filter.md
 	pandoc -s filter.md -o filter.tex
+
+misq.pdf : misq.tex
+	pdflatex misq.tex
+
+misq.tex : misq.md
+	pandoc -s misq.md -o misq.tex
