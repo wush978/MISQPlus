@@ -1,0 +1,5 @@
+.Rbuildignore
+*.Rproj
+^\.Rproj\.user$
+.project
+.cproject
