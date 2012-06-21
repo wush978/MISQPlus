@@ -192,10 +192,9 @@ According to Table \ref{table:moment-Phie} and Eq \ref{eq:hatD}, we can replace
 some unobserved quantity such as $M_2, M_3, M_4, \mu^T\mu$ with their moment
 estimator. However, $\mu^T 1_n$ and $\mu^T diag(\Lambda)$ have no related moment
 estimator, so we must make sure that the coefficient corresponding to them are
-zero, i.e.
-\begin{equation}
-\frac{4M_3}{n^2} \mu^T 1_n - \frac{4M_3}{n(n-m)\sum \limits_{k=0}^m{\phi_k^2}} \mu^T diag(\Lambda) = 0.
-\end{equation}
+negliable, i.e.
+\begin{eqnarray}
+\end{eqnarray}
 
 
 
