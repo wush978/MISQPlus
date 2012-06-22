@@ -38,10 +38,16 @@ setMethod("dist",
 				  Phi[i,0:m + i] <- phi
 			  }
 			  Lambda <- t(Phi) %*% Phi
+			  SS <- function(a) sum(a^2)^2
 			  diff_x <- .Call("MISQPlusDiffMatrix", x)
 			  Phi_e <- Phi %*% x
 			  M_2 <- apply(Phi_e^2, 2, sum) / ( (n-m) * sum(phi^2) )
-			  M_4 <- apply(Phi_e, 4, function(a) sum(a^2)^2)
+			  M_4 <- apply(Phi_e, 4, SS)
+			  M_4 <- M_4 - M_2^2 * .Call("MISQMatrixFun1",Lambda)
+			  M_4 <- M_4 / sum(diag(Lambda^2))
+			  M_4 <- M_4+ 2*M_2^2
+			  dist_x <- apply(diff_x, 2, SS) / n + apply(Phi_e, 2, SS) / ( (n-m) * sum(phi^2) )
+			  
 			  
           }
 )
