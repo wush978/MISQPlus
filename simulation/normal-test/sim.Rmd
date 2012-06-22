@@ -1,3 +1,5 @@
+ 
+
 # Simulation
 
 ## $latex \phi = (-1, 1)^T$
@@ -9,48 +11,74 @@ source("pre.R")
 show.source("misq1.params.R")
 ```
 
-### $latex D = 0$
+### Experiments
+
+#### D = %distance
 
 - $latex S_1(t)$ is $latex N(0,1)$ distributed.
 - $latex S_2(t)$ is $latex N(0,1)$ distributed.
+```{r qqnorm-misq1-0, echo=FALSE}
+source("pre.R")
+library(MISQPlus, quietly=TRUE)
+source("misq1.params.R")
+misq1 <- new("MISQ", phi)
+sim.unit <- function(i) {
+  S <- cbind(rnorm(data.length), rnorm(data.length) + 0)
+  dist(S, misq1)
+}
+sim.data <- sapply(1:sim.size, sim.unit)
+load("misq1-0.Rdata")
+test.normality(sim.data)
+```
+#### D = %distance
 
+- $latex S_1(t)$ is $latex N(0,1)$ distributed.
+- $latex S_2(t)$ is $latex N(1,1)$ distributed.
 ```{r qqnorm-misq1-1, echo=FALSE}
 source("pre.R")
+library(MISQPlus, quietly=TRUE)
+source("misq1.params.R")
+misq1 <- new("MISQ", phi)
+sim.unit <- function(i) {
+  S <- cbind(rnorm(data.length), rnorm(data.length) + 1)
+  dist(S, misq1)
+}
+sim.data <- sapply(1:sim.size, sim.unit)
 load("misq1-1.Rdata")
 test.normality(sim.data)
 ```
-
-### $latex D = 1$
+#### D = %distance
 
 - $latex S_1(t)$ is $latex N(0,1)$ distributed.
-- $latex S_2(t)$ is $latex N(1,1)$ distributed.
-
-```{r qqnorm-misq1-2, echo=FALSE}
+- $latex S_2(t)$ is $latex N(10,1)$ distributed.
+```{r qqnorm-misq1-10, echo=FALSE}
 source("pre.R")
-load("misq1-2.Rdata")
+library(MISQPlus, quietly=TRUE)
+source("misq1.params.R")
+misq1 <- new("MISQ", phi)
+sim.unit <- function(i) {
+  S <- cbind(rnorm(data.length), rnorm(data.length) + 10)
+  dist(S, misq1)
+}
+sim.data <- sapply(1:sim.size, sim.unit)
+load("misq1-10.Rdata")
+test.normality(sim.data)
+```
+#### D = %distance
+
+- $latex S_1(t)$ is $latex N(0,1)$ distributed.
+- $latex S_2(t)$ is $latex N(100,1)$ distributed.
+```{r qqnorm-misq1-100, echo=FALSE}
+source("pre.R")
+library(MISQPlus, quietly=TRUE)
+source("misq1.params.R")
+misq1 <- new("MISQ", phi)
+sim.unit <- function(i) {
+  S <- cbind(rnorm(data.length), rnorm(data.length) + 100)
+  dist(S, misq1)
+}
+sim.data <- sapply(1:sim.size, sim.unit)
+load("misq1-100.Rdata")
 test.normality(sim.data)
 ```
 
-
-### $latex D = 10$
-
-- $latex S_1(t)$ is $latex N(0,1)$ distributed.
-- $latex S_2(t)$ is $latex N(1,1)$ distributed.
-
-```{r qqnorm-misq1-3, echo=FALSE}
-source("pre.R")
-load("misq1-3.Rdata")
-test.normality(sim.data)
-```
-
-
-### $latex D = 100$
-
-- $latex S_1(t)$ is $latex N(0,1)$ distributed.
-- $latex S_2(t)$ is $latex N(1,1)$ distributed.
-
-```{r qqnorm-misq1-4, echo=FALSE}
-source("pre.R")
-load("misq1-4.Rdata")
-test.normality(sim.data)
-```

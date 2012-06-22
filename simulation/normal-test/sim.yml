@@ -1,0 +1,36 @@
+Simulation:
+  $latex \phi = (-1, 1)^T$:
+    Parameters:
+      _content: |
+        ```{r params-misq1, echo=FALSE}
+        source("pre.R")
+        show.source("misq1.params.R")
+        ```
+    Experiments:
+      _attribute:
+        _class_name: RmdGeneratedNode
+        _generator:
+          0: distance
+        distance:
+          0: 0
+          1: 1
+          10: 10
+          100: 100
+        _template: |
+          #### D = %distance
+          
+          - $latex S_1(t)$ is $latex N(0,1)$ distributed.
+          - $latex S_2(t)$ is $latex N(%distance%,1)$ distributed.
+          ```{r qqnorm-misq1-%distance%, echo=FALSE}
+          source("pre.R")
+          library(MISQPlus, quietly=TRUE)
+          source("misq1.params.R")
+          misq1 <- new("MISQ", phi)
+          sim.unit <- function(i) {
+            S <- cbind(rnorm(data.length), rnorm(data.length) + %distance%)
+            dist(S, misq1)
+          }
+          sim.data <- sapply(1:sim.size, sim.unit)
+          load("misq1-%distance%.Rdata")
+          test.normality(sim.data)
+          ```
