@@ -1,0 +1,13 @@
+
+R_SOURCE := misq1-1.R  misq1-2.R  misq1-3.R  misq1-4.R
+R_DATA := $(R_SOURCE:.R=.Rdata)
+
+all : $(R_DATA) sim.html
+
+sim.html : sim.yml $(R_DATA)
+	php ../yml2rmd/yml2rmd.php sim.yml sim.Rmd
+	Rscript -e "require(knitr);require(markdown);knitr('sim.Rmd','sim.md');markdownToHTML('sim.md','sim.html')"
+
+$(R_DATA) : $(R_SOURCE)
+	R --slave --vanilla < $(@:.Rdata=.R)
+
