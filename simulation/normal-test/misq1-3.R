@@ -1,3 +1,4 @@
+library(MISQPlus)
 source("misq1.params.R")
 misq1 <- new("MISQ", phi)
 sim.unit <- function(i) {
