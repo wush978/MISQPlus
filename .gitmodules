@@ -1,3 +1,6 @@
 [submodule "test/yml2rmd"]
 	path = test/yml2rmd
 	url = git@github.com:wush978/yml2rmd.git
+[submodule "simulation/yml2rmd"]
+	path = simulation/yml2rmd
+	url = git@github.com:wush978/yml2rmd.git
