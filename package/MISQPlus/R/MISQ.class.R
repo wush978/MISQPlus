@@ -47,8 +47,7 @@ setMethod("dist",
 			  M_4 <- M_4 / sum(diag(Lambda^2))
 			  M_4 <- M_4+ 2*M_2^2
 			  dist_x <- apply(diff_x, 2, SS) / n + apply(Phi_e, 2, SS) / ( (n-m) * sum(phi^2) )
-			  
-			  
+			  dist_x
           }
 )
 
