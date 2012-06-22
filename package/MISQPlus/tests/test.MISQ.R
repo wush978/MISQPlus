@@ -31,3 +31,15 @@ if (sum(abs(retval[,1])))
   stop("Invalid retval")
 if (sum(abs(retval[,2] - 1)))
   stop("Invalid retval")
+
+test.matrix.fun1 <- matrix(rnorm(25), 5, 5)
+retval <- .Call("MISQPlusMatrixFun1", test.matrix.fun1)
+expected.retval <- 0
+for(i in 1:nrow(test.matrix.fun1)) {
+	for( j in 1:ncol(test.matrix.fun1)) {
+		expected.retval <- expected.retval + test.matrix.fun1[i,i] * test.matrix.fun1[j,j] + test.matrix.fun1[i,j]^2
+	}
+}
+if (retval != expected.retval) {
+	stop("MISQPlusMatrixFun1 runs unexpected!")
+}

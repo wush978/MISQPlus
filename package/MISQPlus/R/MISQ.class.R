@@ -46,6 +46,3 @@ setMethod("dist",
           }
 )
 
-SEXP MISQPlusMatrixFun1(SEXP x) {
-	
-}

@@ -55,3 +55,14 @@ SEXP MISQPlusDiffMatrix(SEXP Rx) {
 	return retval;
 	END_RCPP
 }
+
+SEXP MISQPlusMatrixFun1(SEXP Rx) {
+	BEGIN_RCPP
+	NumericMatrix x(Rx);
+	if (x.ncol() != x.nrow())
+		throw std::invalid_argument("Input is not a squared matrix");
+	NumericVector retval(1,0.0);
+	return retval;
+	END_RCPP
+}
+
