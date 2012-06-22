@@ -32,6 +32,7 @@ if (sum(abs(retval[,1])))
 if (sum(abs(retval[,2] - 1)))
   stop("Invalid retval")
 
+# test MISQPlusMatrixFun1
 test.matrix.fun1 <- matrix(rnorm(25), 5, 5)
 retval <- .Call("MISQPlusMatrixFun1", test.matrix.fun1)
 expected.retval <- 0
@@ -43,3 +44,5 @@ for(i in 1:nrow(test.matrix.fun1)) {
 if (retval != expected.retval) {
 	stop("MISQPlusMatrixFun1 runs unexpected!")
 }
+
+# test calculating dist
