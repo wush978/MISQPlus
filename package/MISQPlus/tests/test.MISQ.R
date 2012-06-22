@@ -41,7 +41,7 @@ for(i in 1:nrow(test.matrix.fun1)) {
 		expected.retval <- expected.retval + test.matrix.fun1[i,i] * test.matrix.fun1[j,j] + test.matrix.fun1[i,j]^2
 	}
 }
-if (retval != expected.retval) {
+if (!abs(retval - expected.retval) < 10^(-10)) {
 	stop("MISQPlusMatrixFun1 runs unexpected!")
 }
 
