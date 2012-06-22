@@ -1,3 +1,1 @@
-library(MISQPlus)
-data.length <- 100
-data.ncol <- 100
+library(MISQPlus,quietly=TRUE)

@@ -2,12 +2,32 @@
 
 ## $latex \phi = (-1, 1)^T$
 
-- $latex S_i(t)$ distributed as $latex N(0,1)$, where $latex i = 1, 2, \cdots, 100$ and $latex t = 1, 2, \cdots, 100$.
+### Parameters
+
+```{r params-misq1, echo=FALSE}
+retval <- readLines("misq1.params.R",warn=FALSE)
+for (i in 1:length(retval)) {
+  cat(retval[i])
+  cat("\n")
+}
+```
+
+- $latex S_i(t)$ distributed as $latex N(0,1)$, where $latex i = 1, 2, \cdots, \mbox{data.ncol}$ and $latex t = 1, 2, \cdots,  \mbox{data.length}$.
 
 ```{r qqnorm-misq1, echo=FALSE}
-load("misq1.Rdata")
-print("The Q-Q plot of estimated distance.")
-qqnorm(sim.dist)
+source("pre.R")
+source("misq1.params.R")
+misq1 <- new("MISQ", phi)
+x <- matrix(rnorm(data.length * data.ncol), data.length, data.ncol)
+sim.dist <- dist(x, misq1)
+qqnorm(sim.dist, main=expression(paste("The Q-Q plot of ", hat(D)[phi](S[i], S[j]))))
 qqline(sim.dist)
+retval <- shapiro.test(sim.dist)
+print(paste("The p-value of Shapiro-Wilk normality test is", round(retval$p.value, 3)))
+if (retval$p.value < 0.05) {
+  print((paste("It is significant that the distance estimator is not normal distributed")))
+} else {
+  print((paste("There is no evidence to say the distance estimator is not normal distributed")))
+} 
 ```
 

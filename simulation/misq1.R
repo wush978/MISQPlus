@@ -1,5 +1,5 @@
-rm(list = ls())
 source("pre.R")
+source("misq1.params.R")
 misq1 <- new("MISQ", c(-1,1))
 x <- matrix(rnorm(data.length * data.ncol), data.length, data.ncol)
 sim.dist <- dist(x, misq1)
