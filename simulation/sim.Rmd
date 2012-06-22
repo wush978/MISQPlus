@@ -1,0 +1,13 @@
+# Simulation
+
+## $latex \phi = (-1, 1)^T$
+
+- $latex S_i(t)$ distributed as $latex N(0,1)$, where $latex i = 1, 2, \cdots, 100$ and $latex t = 1, 2, \cdots, 100$.
+
+```{r qqnorm-misq1, echo=FALSE}
+load("misq1.Rdata")
+print("The Q-Q plot of estimated distance.")
+qqnorm(sim.dist)
+qqline(sim.dist)
+```
+
