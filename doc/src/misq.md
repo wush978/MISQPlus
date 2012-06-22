@@ -45,6 +45,5 @@ Var(e^T \Phi^T \Phi e) &=& E e^T \Phi^T \Phi e e^T \Phi^T \Phi e - (E e^T \Phi^T
 &-& \left(M_2 \sum \limits_{i=1}^n {\Lambda_{i,i}} \right)^2 \\
 &=& (M_4 - 2M_2^2) \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i,j} {\Lambda_{i,i} \Lambda_{j,j}} \\
 &+& M_2^2 \sum \limits_{i,j} {\Lambda_{i,j}^2} - M_2^2 \sum \limits_{i,j} {\Lambda_{i,i} \Lambda_{j,j}} \\
-&=& (M_4 - 2M_2^2) \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i,j} {\Lambda_{i,j}^2}
 \end{eqnarray}
 
