@@ -46,3 +46,5 @@ if (!abs(retval - expected.retval) < 10^(-10)) {
 }
 
 # test calculating dist
+
+dist(x2, misq)
