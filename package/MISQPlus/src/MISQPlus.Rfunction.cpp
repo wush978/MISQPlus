@@ -62,6 +62,11 @@ SEXP MISQPlusMatrixFun1(SEXP Rx) {
 	if (x.ncol() != x.nrow())
 		throw std::invalid_argument("Input is not a squared matrix");
 	NumericVector retval(1,0.0);
+	for(R_len_t i(0);i < x.ncol();i++) {
+		for(R_len_t j(0);j < x.nrow();j++) {
+			retval[0] += x(i,i) * x(j,j) + x(i,j) * x(i,j);
+		}
+	}
 	return retval;
 	END_RCPP
 }
