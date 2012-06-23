@@ -1,47 +1,50 @@
 Simulation:
-    Experiments:
+  Experiments:
+    _attribute:
+      _generator:
+        0: distance
+        1: phi
+        2: data.length
+        3: sim.size
+      distance:
+        0: 0
+        1: 1
+        10: 10
+        100: 100
+      phi:
+        0: c(-1,1)
+        1: c(-0.5,1,-0.5)
+      data.length:
+        0: 10
+        1: 100
+      sim.size:
+        0: 5000
+    Introduction:
+      _content: |
+        In the following experiments, the $latex S_1(t)$ and $latex S_2(t)$ are two i.i.d. normal distributed 
+        synthetic time series. The distance between the time series are varied as $0, 1, 10, 100$. The length
+        are also varied as $10, 100$. Here, we test 2 filters: $\phi = (-1,1)^T$ and $\phi = (-0.5, 1, -0.5)$.  
+        The estimated $M_2$ and $M_4$ are reported and should be invariant of the length and $\phi$.
+    Moment Src:
       _attribute:
-        _generator:
-          0: distance
-          1: phi
-          2: data.length
-          3: sim.size
-        distance:
-          0: 0
-          1: 1
-          10: 10
-          100: 100
-        phi:
-          0: c(-1,1)
-          1: c(-0.5,1,-0.5)
-        data.length:
-          0: 10
-          1: 100
-        sim.size:
-          0: 5000
-      Moment Src:
-        _attribute:
-          _class_name: RmdRsrcNode
-          _src_name: build/misq1-%@distance%-%@phi%-%@data.length%.R
-          _template: |
-            library(MISQPlus, quietly=TRUE)
-            misq1 <- new("MISQ", %phi%)
-            sim.unit <- function(i) {
-              S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
-              unlist(dist(S, misq1))
-            }
-            sim.data <- sapply(1:%sim.size%, sim.unit)
-      Moment Test:
-        _attribute:
-          _class_name: RmdGeneratedNode
-          _template: |
-            ##### D = %distance%, phi = %phi%, data.length = %data.length% 
-
-            - $latex S_1(t)$ is $latex N(0,1)$ distributed.
-            - $latex S_2(t)$ is $latex N(%distance%,1)$ distributed.
-            
-            ```{r misq1-%@distance%-%@phi%-%@data.length%}
-            source("pre.R")
-            cache.source("build/misq1-%@distance%-%@phi%-%@data.length%.R")
-            print((apply(sim.data,1,function(a) round(mean(a),2))))
-            ```
+        _class_name: RmdRsrcNode
+        _src_name: build/misq1-%@distance%-%@phi%-%@data.length%.R
+        _template: |
+          library(MISQPlus, quietly=TRUE)
+          misq1 <- new("MISQ", %phi%)
+          sim.unit <- function(i) {
+            S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
+            unlist(dist(S, misq1))
+          }
+          sim.data <- sapply(1:%sim.size%, sim.unit)
+    Moment Test:
+      _attribute:
+        _class_name: RmdGeneratedNode
+        _template: |
+          #### D = %distance%, phi = %phi%, data.length = %data.length% 
+          
+          ```{r misq1-%@distance%-%@phi%-%@data.length%}
+          source("pre.R")
+          cache.source("build/misq1-%@distance%-%@phi%-%@data.length%.R")
+          print((apply(sim.data,1,function(a) round(mean(a),2)))[-1])
+          ```
