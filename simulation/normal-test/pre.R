@@ -1,4 +1,5 @@
-library(MISQPlus,quietly=TRUE)
+library(MISQPlus, quietly=TRUE)
+
 test.normality <- function(sim.dist) {
   qqnorm(sim.dist, main=expression(paste("The Q-Q plot of ", hat(D)[phi](S[1], S[2]))))
   qqline(sim.dist)
@@ -19,4 +20,16 @@ show.source <- function(source.filename) {
     cat(retval[i])
     cat("\n")
   }  
+}
+
+library(tools, quietly=TRUE)
+cache.source <- function(file_name) {
+	md5 <- md5sum(file_name)
+	image_name <- sub(pattern=".R",replacement=paste(".", md5, ".cache.Rdata", sep=""), file_name)
+	if (file.exists(image_name)) {
+		source(file_name)
+		save.image(image_name)
+	} else {
+		load(image_name)
+	}
 }
