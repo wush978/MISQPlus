@@ -30,6 +30,8 @@ setMethod("dist",
           signature(x = "matrix", method = "MISQ"),
           function (x, method, diag = FALSE, upper = FALSE) 
           {
+            if(ncol(x) > 2)
+              stop("TODO")
             n <- nrow(x)
             phi <- method@phi;
             m <- length(phi) - 1
@@ -47,6 +49,5 @@ setMethod("dist",
             M_4 <- M_4 / sum(diag(Lambda^2))
             M_4 <- M_4+ 2*M_2^2
             dist_x <- apply(diff_x, 2, SS) / n - apply(Phi_e, 2, SS) / ( (n-m) * sum(phi^2) )
-            dist_x
+            list(dist=dist_x,M_2=M_2,M_4=M_4)
           } )
-
