@@ -1,5 +1,7 @@
+*.cache.Rdata
 NA
 figure
 *.Rdata
 *.md
 *.Rproj
+misq1*.R

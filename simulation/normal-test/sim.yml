@@ -1,44 +1,51 @@
 Simulation:
   $latex \phi = (-1, 1)^T$:
-    Parameters:
-      _content: |
-        ```{r params-misq1, echo=FALSE}
-        source("pre.R")
-        show.source("misq1.params.R")
-        ```
     Experiments:
       _attribute:
         _generator:
           0: distance
+          1: phi
+          2: data.length
+          3: sim.size
         distance:
           0: 0
           1: 1
           10: 10
           100: 100
+        phi:
+          0: c(-1,1)
+          1: c(-0.5,1,-0.5)
+        data.length:
+          0: 10
+          1: 100
+        sim.size:
+          0: 5000
       Normality Src:
         _attribute:
           _class_name: RmdRsrcNode
-          _src_name: misq1-%distance%.R
+          _src_name: misq1-%@distance%-%@phi%-%@data.length%.R
           _template: |
             library(MISQPlus, quietly=TRUE)
             source("misq1.params.R")
-            misq1 <- new("MISQ", phi)
+            misq1 <- new("MISQ", %phi%)
             sim.unit <- function(i) {
-              S <- cbind(rnorm(data.length), rnorm(data.length) + %distance%)
+              S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
               dist(S, misq1)
             }
-            sim.data <- sapply(1:sim.size, sim.unit)
+            sim.data <- sapply(1:%sim.size%, sim.unit)
       Normality Test:
         _attribute:
           _class_name: RmdGeneratedNode
           _template: |
-            ##### D = %distance%
+            ##### D = %distance%, phi = %phi%, data.length = %data.length% 
             
             - $latex S_1(t)$ is $latex N(0,1)$ distributed.
             - $latex S_2(t)$ is $latex N(%distance%,1)$ distributed.
-            ```{r qqnorm-misq1-%distance%, echo=FALSE}
+            ```{r qqnorm-misq1-%@distance%-%@phi%-%@data.length%, echo=FALSE}
             source("pre.R")
-            cache.source("misq1-%distance%.R")
+            cache.source("misq1-%@distance%-%@phi%-%@data.length%.R")
             test.normality(sim.data)
+            print(paste("mean: ", mean(sim.data)))
+            print(paste("variance: ", var(sim.data)))
             ```
       
