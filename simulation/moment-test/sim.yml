@@ -1,5 +1,4 @@
 Simulation:
-  $latex \phi = (-1, 1)^T$:
     Experiments:
       _attribute:
         _generator:
@@ -20,32 +19,29 @@ Simulation:
           1: 100
         sim.size:
           0: 5000
-      Normality Src:
+      Moment Src:
         _attribute:
           _class_name: RmdRsrcNode
-          _src_name: misq1-%@distance%-%@phi%-%@data.length%.R
+          _src_name: build/misq1-%@distance%-%@phi%-%@data.length%.R
           _template: |
             library(MISQPlus, quietly=TRUE)
             source("misq1.params.R")
             misq1 <- new("MISQ", %phi%)
             sim.unit <- function(i) {
               S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
-              dist(S, misq1)
+              unlist(dist(S, misq1))
             }
             sim.data <- sapply(1:%sim.size%, sim.unit)
-      Normality Test:
+      Moment Test:
         _attribute:
           _class_name: RmdGeneratedNode
           _template: |
             ##### D = %distance%, phi = %phi%, data.length = %data.length% 
-            
+
             - $latex S_1(t)$ is $latex N(0,1)$ distributed.
             - $latex S_2(t)$ is $latex N(%distance%,1)$ distributed.
-            ```{r qqnorm-misq1-%@distance%-%@phi%-%@data.length%, echo=FALSE}
+            
+            ```{r misq1-%@distance%-%@phi%-%@data.length%}
             source("pre.R")
-            cache.source("misq1-%@distance%-%@phi%-%@data.length%.R")
-            test.normality(sim.data)
-            print(paste("mean: ", mean(sim.data)))
-            print(paste("variance: ", var(sim.data)))
+            cache.source("build/misq1-%@distance%-%@phi%-%@data.length%.R")
             ```
-      
