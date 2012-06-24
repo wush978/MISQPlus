@@ -45,9 +45,15 @@ setMethod("dist",
             Phi_e <- Phi %*% diff_x
             M_2 <- apply(Phi_e^2, 2, sum) / ( (n-m) * sum(phi^2) )
             M_4 <- apply(Phi_e, 2, SS)
-            M_4 <- M_4 - M_2^2 * .Call("MISQPlusMatrixFun1",Lambda)
-            M_4 <- M_4 / sum(diag(Lambda^2))
-            M_4 <- M_4+ 2*M_2^2
+			Lambda.M_4.coef <- 0
+			for(i in 1:n) {
+				for (j in 1:n) {
+					Lambda.M_4.coef <- Lambda.M_4.coef + 2 * Lambda[i,j]^2 + Lambda[i,i] * Lambda[j,j]					
+				}
+			}
+			M_4 <- M_4 - Lambda.M_4.coef * M_2^2
+			M_4 <- M_4 / sum(diag(Lambda)^2)
+			M_4 <- M_4 + 3*M_2^2
             dist_x <- apply(diff_x, 2, SS) / n - apply(Phi_e, 2, SS) / ( (n-m) * sum(phi^2) )
             list(dist=dist_x,M_2=M_2,M_4=M_4)
           } )
