@@ -80,7 +80,26 @@ E \Phi e e^T \Phi^T \Phi e &=& M_3 \left(\begin{array}{c}
 - \begin{eqnarray} 
 E e^T \Phi^T \Phi e e^T \Phi^T \Phi e &=& E (\sum \limits_{i,j} { \Lambda_{i,j} e_i e_j })^2 \nonumber \\
 &=& E (\sum \limits_{i,j,k,l} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) \nonumber \\
-&=& M_4 \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i \neq j} {\Lambda_{i,i} \Lambda_{j,j} + \Lambda_{i,j}^2} \nonumber
+&=& E (\sum \limits_{i=j,k=l} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) + E (\sum \limits_{i=k,j=l} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) \nonumber \\
+& & + E (\sum \limits_{i=l,j=k} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) - 2E (\sum \limits_{i=l=j=k} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) \nonumber
+\end{eqnarray}
+	- \begin{eqnarray}
+E (\sum \limits_{i=j,k=l} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) &=& (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} }) \nonumber   
+\end{eqnarray}
+	- \begin{eqnarray}
+E (\sum \limits_{i=k,j=l} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) &=& (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber 
+\end{eqnarray}
+	- \begin{eqnarray}
+E (\sum \limits_{i=l,j=k} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) &=& (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber    
+\end{eqnarray}
+	- \begin{eqnarray}
+E (\sum \limits_{i=l=j=k} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) &=& M_4 (\sum \limits_{i} { \Lambda_{i,i}^2 }) \nonumber
+\end{eqnarray}
+- \begin{eqnarray}
+E e^T \Phi^T \Phi e e^T \Phi^T \Phi e &=& (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} }) + (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber \\
+& & + (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,j}^2 }) - 2   M_4 (\sum \limits_{i} { \Lambda_{i,i}^2 }) \nonumber \\
+&=& (M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (\sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} }) + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber 
+%&=& (M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (n-m)^2 (\sum \limits_{i=0}^m {\phi_i^2} )^2 + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber
 \end{eqnarray}
 
 
