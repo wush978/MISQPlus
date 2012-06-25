@@ -1,0 +1,86 @@
+Simulation:
+  Verification of moment-Phie:
+    _attribute:
+      _class_name: RmdGeneratedNode
+      _generator:
+        0: phi
+      phi:
+        origin: c(-1,1)
+        mvavg: c(-1/3,2/3,-1/3)
+      _template: |
+        # phi: %phi%
+        ## Simulation Environment
+        
+        - $latex e_i$ is distributed as $Normal(0,2) \forall i \in 1, \cdots, n$
+        - $latex M_2 = 4$
+        - $latex M_3 = 0$
+        - $latex M_4 = 48$
+        
+        Code:
+        
+        ```{r synthetic_data_normal_%@phi%, cache=TRUE, message=FALSE}
+        library(sm)
+        sample_size <- 5000
+        n <- 100
+        synthetic_data <- matrix(rnorm(sample_size * n), n, sample_size)
+        M_2 <- 1
+        M_3 <- 0
+        M_4 <- 3
+        phi <- %phi%
+        m <- length(phi) - 1
+        Phi <- matrix(0, n - m, n)
+        for(i in 1:(n-m)) {
+          Phi[i,seq(i,by=1,length=length(phi))] <- phi
+        }
+        Lambda <- t(Phi) %*% Phi
+        synthetic_data <- apply(synthetic_data, 2, function(a) Phi%*%a)
+        expected_result <- list()
+        expected_result[['2']] <- M_2 * (n - m) * sum(phi^2)
+        expected_result[['3']] <- M_3 * diag(Lambda)
+        expected_result[['4_1']] <- (M_4 + (n-1) * M_2 ) * (n-m) * sum(phi^2) 
+        expected_result[['4_2']] <- (M_4 - 3 * M_2^2) * sum(diag(Lambda)^2) + M_2^2 * sum(diag(Lambda))^2 + 2 * M_2^2 * sum(Lambda^2)
+        ```
+        
+        ## Verify $latex e^T \Phi^T \Phi e$
+        
+        The distribution of $latex e^Te$ is:
+        
+        ```{r e^Te_normal_%@phi%, dependson="synthetic_data_normal",echo=FALSE, message=FALSE}
+        library(sm)
+        result <- apply(synthetic_data,2,function(a) sum(a^2))
+        sm.density(result)
+        abline(v=expected_result[["2"]],col='red')
+        legend('topright', 'expected value', lty=1, col='red')
+        ```
+        
+        ## Verify $latex ee^T \Phi^T \Phi e$
+        
+        The distribution of $latex \left|| ee^Te \right||$ is:
+        
+        ```{r ee^Te_normal_%@phi%, dependson="synthetic_data_normal",echo=FALSE, message=FALSE}
+        result <- matrix(NA,n - m,sample_size)
+        for(i in 1:sample_size) {
+          a <- synthetic_data[,i]
+          result[,i] <- a %*% t(a) %*% a  
+        }
+        cat("simulation result: \n")
+        print(apply(result,1,mean))
+        cat("expected result: \n")
+        retval <- expected_result[['3']]
+        names(retval) <- NULL
+        print(retval)
+        ```
+        
+        ## Verify $latex e^T \Phi^T \Phi ee^T \Phi^T \Phi e$
+        
+        ```{r e^Tee^Te_normal_%@phi%, dependson="synthetic_data_normal", echo=FALSE, message=FALSE}
+        result <- rep(NA,sample_size)
+        for(i in 1:sample_size) {
+          a <- synthetic_data[,i]
+          result[i] <- t(a) %*% a %*% t(a) %*% a
+        }
+        sm.density(result)
+        abline(v= expected_result[['4_2']],col='red')
+        ```
+        
+            
