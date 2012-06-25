@@ -1,0 +1,40 @@
+# Simulation Environment
+
+- $latex e_i$ is distributed as $Normal(0,1) \forall i \in 1, \cdots, n$
+- $latex M_2 = 1$
+- $latex M_3 = 0$
+- $latex M_4 = 3$
+
+Code:
+
+```{r synthetic_data, cache=TRUE, message=FALSE}
+library(sm)
+sample_size <- 5000
+n <- 100
+synthetic_data <- matrix(rnorm(sample_size * n), n, sample_size)
+expected_result <- c(M_2 = 1, M_3 = 0, M_4 = 3)
+```
+
+# Verify $latex e^Te$
+
+The distribution of $latex e^Te$ is:
+
+```{r e^Te, dependson="synthetic_data",echo=FALSE}
+result <- apply(synthetic_data, 2, function(a) t(a)%*%a)
+sm.density(result)
+abline(v=n * expected_result["M_2"],col='red')
+legend('topright', 'expected value', lty=1, col='red')
+```
+
+# Verify $latex ee^Te$
+
+The distribution of $latex \left|| ee^Te \right||$ is:
+
+```{r ee^Te, dependson="synthetic_data",echo=FALSE}
+result <- apply(synthetic_data, 2, function(a) {
+  a%*%t(a)%*%a
+})
+print(result)
+print(rep(0,n))
+```
+
