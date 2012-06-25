@@ -151,8 +151,8 @@ Expand the definition of $\Lambda_{i,i}$ to prove this property.
   \hline
   $e^T \Phi^T \Phi e$ & $M_2 (n-m) \sum \limits_{k=0}^m {\phi_k^2}$ \\
   $ee^T \Phi^T \Phi e$ & $M_3 diag(\Lambda) $ \\
-  $e^Tee^T\Phi^T \Phi e$ & $(M_4 + (n-1)M_2) (n-m) \sum \limits_{k=0}^m { \phi_k^2 }$ \\
-  $e^T \Phi^T \Phi e e^T \Phi^T \Phi e$ & $M_4 \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i \neq j} {\Lambda_{i,i} \Lambda_{j,j} + \Lambda_{i,j}^2}$ \\
+  $e^Tee^T\Phi^T \Phi e$ & $(M_4 + (n-1)M_2^2) (n-m) \sum \limits_{k=0}^m { \phi_k^2 }$ \\
+  $e^T \Phi^T \Phi e e^T \Phi^T \Phi e$ & $(M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (n-m)^2 (\sum \limits_{i=0}^m {\phi_i^2} )^2 + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 })$ \\
 \end{tabular}
 \caption{The moments of $e$.} \label{table:moment-Phie}
 \end{table}
