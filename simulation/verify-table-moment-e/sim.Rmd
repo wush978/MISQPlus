@@ -1,4 +1,6 @@
-# Simulation Environment
+# Simulation1: Normal Distributed Error
+
+## Simulation Environment
 
 - $latex e_i$ is distributed as $Normal(0,1) \forall i \in 1, \cdots, n$
 - $latex M_2 = 1$
@@ -7,7 +9,7 @@
 
 Code:
 
-```{r synthetic_data, cache=TRUE, message=FALSE}
+```{r synthetic_data_normal, cache=TRUE, message=FALSE}
 library(sm)
 sample_size <- 5000
 n <- 100
@@ -15,26 +17,105 @@ synthetic_data <- matrix(rnorm(sample_size * n), n, sample_size)
 expected_result <- c(M_2 = 1, M_3 = 0, M_4 = 3)
 ```
 
-# Verify $latex e^Te$
+## Verify $latex e^Te$
 
 The distribution of $latex e^Te$ is:
 
-```{r e^Te, dependson="synthetic_data",echo=FALSE}
+```{r e^Te_normal, dependson="synthetic_data_normal",echo=FALSE, message=FALSE}
+library(sm)
 result <- apply(synthetic_data, 2, function(a) t(a)%*%a)
 sm.density(result)
 abline(v=n * expected_result["M_2"],col='red')
 legend('topright', 'expected value', lty=1, col='red')
 ```
 
-# Verify $latex ee^Te$
+## Verify $latex ee^Te$
 
 The distribution of $latex \left|| ee^Te \right||$ is:
 
-```{r ee^Te, dependson="synthetic_data",echo=FALSE}
-result <- apply(synthetic_data, 2, function(a) {
-  a%*%t(a)%*%a
-})
-print(result)
-print(rep(0,n))
+```{r ee^Te_normal, dependson="synthetic_data_normal",echo=FALSE, message=FALSE}
+result <- matrix(NA,n,sample_size)
+for(i in 1:sample_size) {
+  a <- synthetic_data[,i]
+  result[,i] <- a %*% t(a) %*% a  
+}
+cat("simulation result: \n")
+print(apply(result,1,mean))
+cat("expected result: \n")
+retval <- rep(expected_result['M_3'],n)
+names(retval) <- NULL
+print(retval)
 ```
 
+## Verify $latex e^Tee^Te$
+
+```{r e^Tee^Te_normal, dependson="synthetic_data_normal", echo=FALSE, message=FALSE}
+result <- rep(NA,sample_size)
+for(i in 1:sample_size) {
+  a <- synthetic_data[,i]
+  result[i] <- t(a) %*% a %*% t(a) %*% a
+}
+sm.density(result)
+abline(v= n * expected_result['M_4'] + n * (n-1) * expected_result['M_2']^2,col='red')
+```
+
+# Simulation2: Exponential Distributed Error
+
+## Simulation Environment:
+
+- $latex e_i$ is distributed as $Exponential(1) - 1$
+- $latex M_2 = 1$
+- $latex M_3 = 2$
+- $latex M_4 = 9$
+
+code:
+
+```{r synthetic_data_exp , cache=TRUE, message=FALSE}
+library(sm)
+sample_size <- 5000
+n <- 100
+synthetic_data <- matrix(rexp(sample_size * n) - 1, n, sample_size)
+expected_result <- c(M_2 = 1, M_3 = 2, M_4 = 9)
+```
+
+## Verify $latex e^Te$
+
+The distribution of $latex e^Te$ is:
+
+```{r e^Te_exp, dependson="synthetic_data_exp",echo=FALSE, message=FALSE}
+library(sm)
+result <- apply(synthetic_data, 2, function(a) t(a)%*%a)
+sm.density(result)
+abline(v=n * expected_result["M_2"],col='red')
+legend('topright', 'expected value', lty=1, col='red')
+```
+
+## Verify $latex ee^Te$
+
+The distribution of $latex \left|| ee^Te \right||$ is:
+
+```{r ee^Te_exp, dependson="synthetic_data_exp",echo=FALSE, message=FALSE}
+result <- matrix(NA,n,sample_size)
+for(i in 1:sample_size) {
+  a <- synthetic_data[,i]
+  result[,i] <- a %*% t(a) %*% a  
+}
+cat("simulation result: \n")
+print(apply(result,1,mean))
+cat("expected result: \n")
+retval <- rep(expected_result['M_3'],n)
+names(retval) <- NULL
+print(retval)
+```
+
+## Verify $latex e^Tee^Te$
+
+```{r e^Tee^Te_exp, dependson="synthetic_data_exp", echo=FALSE, message=FALSE}
+result <- rep(NA,sample_size)
+for(i in 1:sample_size) {
+  a <- synthetic_data[,i]
+  result[i] <- t(a) %*% a %*% t(a) %*% a
+}
+sm.density(result)
+abline(v= n * expected_result['M_4'] + n * (n-1) * expected_result['M_2']^2,col='red')
+```
