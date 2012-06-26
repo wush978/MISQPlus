@@ -125,9 +125,9 @@ $tr(\Lambda)$ is the trace of $\Lambda$. Here, we give two properties of $\Lambd
 
 \begin{proof}
 We directly expand the definition of $\Lambda_{i,i}$ as follow: \begin{eqnarray}
-\sum \limits_{i=1}^n{\Lambda_{i,i}} &=& \sum \limits_{i=1}^n{ \sum \limits_{k=1}^(n-m) {\Phi_{k,i}^2}} \nonumber \\
-&=& \sum \limits_{i=1}^n{ \sum \limits_{k=1}^(n-m) {\phi_{i-k}^2}} \nonumber \\
-&=& \sum \limits_{k=1}^(n-m){ \sum \limits_{i=k}^{k+m}{\phi_{i-k}^2} } \nonumber \\
+\sum \limits_{i=1}^n{\Lambda_{i,i}} &=& \sum \limits_{i=1}^n{ \sum \limits_{k=1}^{n-m} {\Phi_{k,i}^2}} \nonumber \\
+&=& \sum \limits_{i=1}^n{ \sum \limits_{k=1}^{n-m} {\phi_{i-k}^2}} \nonumber \\
+&=& \sum \limits_{k=1}^{n-m}{ \sum \limits_{i=k}^{k+m}{\phi_{i-k}^2} } \nonumber \\
 &=& (n-m) \sum \limits_{k=0}^m{\phi_k^2} \nonumber
 \end{eqnarray}
 \end{proof}
@@ -152,7 +152,7 @@ Expand the definition of $\Lambda_{i,i}$ to prove this property.
   $e^T \Phi^T \Phi e$ & $M_2 (n-m) \sum \limits_{k=0}^m {\phi_k^2}$ \\
   $ee^T \Phi^T \Phi e$ & $M_3 diag(\Lambda) $ \\
   $e^Tee^T\Phi^T \Phi e$ & $(M_4 + (n-1)M_2^2) (n-m) \sum \limits_{k=0}^m { \phi_k^2 }$ \\
-  $e^T \Phi^T \Phi e e^T \Phi^T \Phi e$ & $(M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (n-m)^2 (\sum \limits_{i=0}^m {\phi_i^2} )^2 + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 })$ \\
+  $e^T \Phi^T \Phi e e^T \Phi^T \Phi e$ & $(M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (n-m)^2 (\sum \limits_{i=0}^n {\Lambda_{i,i}} )^2 + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 })$ \\
 \end{tabular}
 \caption{The moments of $e$.} \label{table:moment-Phie}
 \end{table}
@@ -171,19 +171,22 @@ discuss the estimation of $\frac{\mu^T\mu}{n}$ called \emph{mean distance} in
 this paper.
 
 We define the estimator of mean distance corresponding to $\phi$ as
-\begin{eqnarray} \hat{D}_{\phi}(X) = \frac{X^TX}{n} - \frac{X^T \Phi^T \Phi X}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}},
+\begin{eqnarray} \hat{D}_{\phi}(X) = \frac{X^TX}{n} - \frac{X^T \Phi^T \Phi X}{(n-m) \sum \limits_{k=0}^m {\phi_m^2}},
 \end{eqnarray} because its expectation is \begin{eqnarray}
-E \hat{D}_{\phi}(X) &\approx& \frac{\mu^T \mu + E e^T e}{n} - \frac{E e^T \Phi^T \Phi e}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}} \nonumber \\
-&=& \frac{\mu^T \mu + nM_2}{n} - \frac{(n-m)M_2 \sum \limits_{k=1}^m {\phi_m^2}}{(n-m) \sum \limits_{k=1}^m {\phi_m^2}} \nonumber \\
+E \hat{D}_{\phi}(X) &\approx& \frac{\mu^T \mu + E e^T e}{n} - \frac{E e^T \Phi^T \Phi e}{(n-m) \sum \limits_{k=0}^m {\phi_m^2}} \nonumber \\
+&=& \frac{\mu^T \mu + nM_2}{n} - \frac{(n-m)M_2 \sum \limits_{k=0}^m {\phi_m^2}}{(n-m) \sum \limits_{k=0}^m {\phi_m^2}} \nonumber \\
 &=& \frac{\mu^T\mu}{n} \label{eq:hatD}
 \end{eqnarray}
 
 The variance of $\hat{D}_{\phi}(X)$ is \begin{eqnarray}
-Var(\hat{D}_{\phi}(X)) &=& \frac{1}{n^2} Var(X^TX) - 2 \frac{1}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} Cov(X^TX, X^T\Phi^T\Phi X) \nonumber \\
-&+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=1}^m {\phi_k^2} \right)^2} Var( X^T \Phi^T \Phi X) \nonumber \\
+& & Var(\hat{D}_{\phi}(X)) \nonumber \\ 
+&=& \frac{1}{n^2} Var(X^TX) - 2 \frac{1}{n(n-m)\sum \limits_{k=0}^m {\phi_k^2}} Cov(X^TX, X^T\Phi^T\Phi X) \nonumber \\
+&+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=0}^m {\phi_k^2} \right)^2} Var( X^T \Phi^T \Phi X) \nonumber \\
 &=& \frac{1}{n^2} \left(4 M_2 \mu^T \mu + 4 M_3 \mu^T 1_n + n M_4 - nM_2^2 \right) \nonumber \\
-&-& \frac{2}{n(n-m)\sum \limits_{k=1}^m {\phi_k^2}} \left( 2 M_3 \mu^T diag(\Lambda) + (M_4 - M_2^2)(n-m) \sum \limits_{k=0}^m { \phi_k^2 } \right) \nonumber \\
-&+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=1}^m {\phi_k^2} \right)^2} \left( (M_4 - 2M_2^2) \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i,j} {\Lambda_{i,j}^2} \right) \nonumber \\
+&-& \frac{2}{n(n-m)\sum \limits_{k=0}^m {\phi_k^2}} \left( 2 M_3 \mu^T diag(\Lambda) + (M_4 - M_2^2)(n-m) \sum \limits_{k=0}^m { \phi_k^2 } \right) \nonumber \\
+&+& \frac{1}{(n-m)^2 \left( \sum \limits_{k=0}^m {\phi_k^2} \right)^2} \left( (M_4 - 2M_2^2) \sum \limits_{i=1}^n {\Lambda_{i,i}^2} + M_2^2 \sum \limits_{i,j} {\Lambda_{i,j}^2} \right) \nonumber \\
+&=& \left(\frac{4\mu^T\mu}{n^2}\right)M_2 + \left(\frac{4\mu^T 1_n}{n^2} - \frac{4 \mu^T diag(\Lambda)}{n(n-m)\sum \limits_{k=0}^m{\phi_k^2}}\right)M_3 \nonumber \\
+&+& \left( \frac{\sum \limits_{k=1}^n{\Lambda_{i,i}^2}}{(n-m)^2 (\sum \limits_{k=0}^m \phi_k^2)^2} - \frac{1}{n} \right)M_4 + \left( \frac{1}{n} - \frac{\sum \limits_{i,j} {\Lambda_{i,j} - 2 \sum \limits_{i=1}^n {\Lambda_{i,i}^2}}}{(n-m)^2 (\sum \limits_{k=0}^m {\phi_k^2})^2}  \right) M_2^2
 \end{eqnarray}
 
 \subsection{Estimable}
