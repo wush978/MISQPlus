@@ -20,19 +20,11 @@ Simulation:
           1: 100
         sim.size:
           0: 5000
-      Normality Src:
-        _attribute:
-          _class_name: RmdRsrcNode
-          _src_name: misq1-%@distance%-%@phi%-%@data.length%.R
-          _template: |
-            library(MISQPlus, quietly=TRUE)
-            source("misq1.params.R")
-            misq1 <- new("MISQ", %phi%)
-            sim.unit <- function(i) {
-              S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
-              dist(S, misq1)
-            }
-            sim.data <- sapply(1:%sim.size%, sim.unit)
+#      Normality Src:
+#        _attribute:
+#          _class_name: RmdRsrcNode
+#          _src_name: misq1-%@distance%-%@phi%-%@data.length%.R
+#          _template: |
       Normality Test:
         _attribute:
           _class_name: RmdGeneratedNode
@@ -41,11 +33,17 @@ Simulation:
             
             - $latex S_1(t)$ is $latex N(0,1)$ distributed.
             - $latex S_2(t)$ is $latex N(%distance%,1)$ distributed.
-            ```{r qqnorm-misq1-%@distance%-%@phi%-%@data.length%, echo=FALSE}
-            source("pre.R")
-            cache.source("misq1-%@distance%-%@phi%-%@data.length%.R")
-            test.normality(sim.data)
-            print(paste("mean: ", mean(sim.data)))
-            print(paste("variance: ", var(sim.data)))
+            ```{r qqnorm-misq1-%@distance%-%@phi%-%@data.length%, echo=FALSE, cache=TRUE}
+            library(MISQPlus, quietly=TRUE)
+            library(sm)
+            misq1 <- new("MISQ", %phi%)
+            sim.unit <- function(i) {
+              S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
+              unlist(dist(S, misq1))
+            }
+            sim.data <- sapply(1:%sim.size%, sim.unit)
+            sm.density(sim.data['dist_hat',]);abline(v=%distance%^2,col='red')
+            sm.density(sim.data['dist_hat_var',]);abline(v=var(sim.data['dist_hat',]),col='red')
+            print(c(estimated_value = mean(sim.data['dist_hat_var',]) , simulated_value = var(sim.data['dist_hat',])))
             ```
       
