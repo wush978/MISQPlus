@@ -40,20 +40,20 @@ setMethod("dist",
               Phi[i,0:m + i] <- phi
             }
             Lambda <- t(Phi) %*% Phi
-            SS <- function(a) sum(a^2)^2
+            
             diff_x <- .Call("MISQPlusDiffMatrix", x)
             Phi_e <- Phi %*% diff_x
-            M_2 <- apply(Phi_e^2, 2, sum) / ( (n-m) * sum(phi^2) )
-            M_4 <- apply(Phi_e, 2, SS)
-			Lambda.M_4.coef <- 0
-			for(i in 1:n) {
-				for (j in 1:n) {
-					Lambda.M_4.coef <- Lambda.M_4.coef + 2 * Lambda[i,j]^2 + Lambda[i,i] * Lambda[j,j]					
-				}
-			}
-			M_4 <- M_4 - Lambda.M_4.coef * M_2^2
-			M_4 <- M_4 / sum(diag(Lambda)^2)
-			M_4 <- M_4 + 3*M_2^2
-            dist_x <- apply(diff_x, 2, SS) / n - apply(Phi_e, 2, SS) / ( (n-m) * sum(phi^2) )
-            list(dist=dist_x,M_2=M_2,M_4=M_4)
+			M_2 <- apply(Phi_e^2, 2, sum) / ( (n-m) * sum(phi^2) )
+			Y_1 <- sum(Phi_e^2)^2
+			Y_2 <- mean(Phi_e^4)
+			M_4_coef_1 <- sum(diag(Lambda)^2)
+			M_2_sq_coef_1 <- sum(diag(Lambda))^2 + 2 * sum(Lambda^2) - 3 * sum(diag(Lambda)^2)
+			M_4_coef_2 <- sum(phi^4)
+			M_2_sq_coef_2 <- 3 * ( sum(phi^2)^2 - sum(phi^4) )
+			M_4_vec <- solve(matrix(c(M_4_coef_1,M_2_sq_coef_1,
+					 M_4_coef_2,M_2_sq_coef_2
+							),2,2,byrow=TRUE), c(Y_1,Y_2))
+			dist_hat <- sum(diff_x^2)/n - sum(Phi_e^2)/( (n - m) * sum(phi^2) )
+			dist_hat_var <- 4 * dist_hat * M_2 / n + ( sum(diag(Lambda^2))/( (n-m)^2 * sum(phi^2)^2 ) - 1/n ) * M_4_vec[1] + (1/n - ( sum(Lambda) - 2 * sum(diag(Lambda)^2) )/( (n-m)^2 * sum(phi^2)^2 )  ) * M_4_vec[2]
+            list(dist_hat = dist_hat, dist_hat_var = dist_hat_var, M_2=  M_2, M_4 = M_4_vec[1])
           } )
