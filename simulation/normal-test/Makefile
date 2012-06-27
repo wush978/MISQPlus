@@ -12,6 +12,7 @@ clean :
 	-rm *.Rmd
 	-rm *.md
 	-rm *.html
+	-rm cache/*
 
 show :
 	google-chrome sim.html

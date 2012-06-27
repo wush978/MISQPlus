@@ -1,6 +1,9 @@
 Simulation:
-  $latex \phi = (-1, 1)^T$:
-    Experiments:
+    Introduction:
+      _content: |
+        The follow experiments is used to verify the estimation of MISQ 
+        with different distance, phi, and data.length.
+    Experiment with constant $latex\mu $:
       _attribute:
         _generator:
           0: distance
@@ -9,15 +12,19 @@ Simulation:
           3: sim.size
         distance:
           0: 0
-          1: 1
-          10: 10
-          100: 100
+#          1: 1
+#          10: 10
+#          100: 100
         phi:
-          0: c(-1,1)
-          1: c(-0.5,1,-0.5)
+#          0: c(-1,1)
+#          1: c(-1/3, 2/3, -1/3)
+          2: c(-1/5, -1/5, 4/5, -1/5, -1/5)
         data.length:
-          0: 10
-          1: 100
+#          0: 10
+          1: 50
+#          2: 100
+#          3: 500
+#          4: 1000
         sim.size:
           0: 5000
 #      Normality Src:
@@ -34,14 +41,21 @@ Simulation:
             - $latex S_1(t)$ is $latex N(0,1)$ distributed.
             - $latex S_2(t)$ is $latex N(%distance%,1)$ distributed.
             ```{r qqnorm-misq1-%@distance%-%@phi%-%@data.length%, echo=FALSE, cache=TRUE}
-            library(MISQPlus, quietly=TRUE)
-            library(sm)
-            misq1 <- new("MISQ", %phi%)
+            S1 <- matrix(rnorm( %data.length% * %sim.size% ), %data.length%, %sim.size% )
+            S2 <- matrix(rnorm( %data.length% * %sim.size% ), %data.length%, %sim.size% )
             sim.unit <- function(i) {
-              S <- cbind(rnorm(%data.length%), rnorm(%data.length%) + %distance%)
+              library(MISQPlus, quietly=TRUE)
+              misq1 <- new("MISQ", %phi%)
+              S <- cbind(S1[,i], S2[,i] + 0)
               unlist(dist(S, misq1))
             }
-            sim.data <- sapply(1:%sim.size%, sim.unit)
+            #library(parallel)
+            #cl <- makeCluster(4)
+            #clusterExport(cl, varlist=c("S1","S2"))
+            #sim.data <- parSapply(cl=cl,X=1:%sim.size%, FUN=sim.unit)
+            sim.data <- sapply(X=1:%sim.size%, FUN=sim.unit)
+            #stopCluster(cl)
+            library(sm)
             sm.density(sim.data['dist_hat',]);abline(v=%distance%^2,col='red')
             sm.density(sim.data['dist_hat_var',]);abline(v=var(sim.data['dist_hat',]),col='red')
             print(c(estimated_value = mean(sim.data['dist_hat_var',]) , simulated_value = var(sim.data['dist_hat',])))

@@ -26,11 +26,13 @@ namespace MISQPlus {
 		return;
 	}
 
+	const Rcpp::NumericMatrix DiffMatrix(const Rcpp::NumericMatrix& x);
+
 }
 
 RcppExport SEXP MISQPlusNumericFilter(SEXP x, SEXP phi);
 RcppExport SEXP MISQPlusNumericMatrixFilter(SEXP x, SEXP phi);
-RcppExport SEXP MISQPlusDiffMatrix(SEXP x);
-RcppExport SEXP MISQPlusMatrixFun1(SEXP x);
+//RcppExport SEXP MISQPlusDiffMatrix(SEXP x);
+RcppExport SEXP MISQPlusDist(SEXP phi, SEXP x);
 
 #endif /* MISQPLUS_H_ */

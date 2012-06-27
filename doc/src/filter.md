@@ -98,10 +98,25 @@ E (\sum \limits_{i=l=j=k} { \Lambda_{i,j}\Lambda_{k,l} e_i e_j e_k e_l }) &=& M_
 - \begin{eqnarray}
 E e^T \Phi^T \Phi e e^T \Phi^T \Phi e &=& (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} }) + (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber \\
 & & + (M_4 - M_2^2)(\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2(\sum \limits_{i,j} { \Lambda_{i,j}^2 }) - 2   M_4 (\sum \limits_{i} { \Lambda_{i,i}^2 }) \nonumber \\
-&=& (M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (\sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} }) + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber 
-%&=& (M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (n-m)^2 (\sum \limits_{i=0}^m {\phi_i^2} )^2 + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber
+&=& (M_4 - 3M_2^2) (\sum \limits_{i} { \Lambda_{i,i}^2 }) + M_2^2 (\sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} }) + 2 M_2^2 (\sum \limits_{i,j} { \Lambda_{i,j}^2 }) \nonumber \\
+&=& (\sum \limits_{i} { \Lambda_{i,i}^2 }) M_4 + \left( \sum \limits_{i,j} { \Lambda_{i,i}\Lambda_{j,j} } + 2 \sum \limits_{i,j} { \Lambda_{i,j}^2 } - 3 \sum \limits_{i} { \Lambda_{i,i}^2 }\right) M_2^2
 \end{eqnarray}
-
+- \begin{eqnarray}
+E e^Tee^T \Phi^T \Phi e &=& E (\sum \limits_{i}{e_i^2}) (\sum \limits_{i,j} {e_i \Lambda_{i,j} e_i e_j}) \nonumber \\
+&=& E ( \sum \limits_{i,k,l} {\Lambda_{k,l} e_i^2 e_k e_l} ) \nonumber \\
+&=& E ( \sum \limits_{i,k=l} {\Lambda_{k,l} e_i^2 e_k e_l} ) \nonumber \\
+&=& E ( \sum \limits_{i,j} {\Lambda_{j,j} e_i^2 e_j^2} ) \nonumber \\
+&=& n M_2^2 \sum \limits_{j} {\Lambda_{j,j}} + (M_4 - M_2^2) \sum \limits_{j} {\Lambda_{j,j}} \nonumber \\
+&=& (M_4 + (n-1) M_2^2) \sum \limits_{j} {\Lambda_{j,j}} \nonumber 
+\end{eqnarray}
+- \begin{eqnarray}
+& &E (\sum \limits_{i=0}^m {\phi_i e_i} )^4 \nonumber \\
+&=& E \sum \limits_{i,j,k,l} {\phi_i \phi_j \phi_k \phi_l e_i e_j e_k e_l} \nonumber \\
+&=& E (3 \sum \limits_{i,j} {\phi_i^2 \phi_j^2 e_i^2 e_j^2 } - 2 \sum \limits_{i} {\phi_i^4 e_i^4 }) \nonumber \\   
+&=& 3 ( M_2^2 \sum \limits_{i,j} {\phi_i^2 \phi_j^2} + (M_4 - M_2^2) \sum \limits_{i} {\phi_i^4 } ) - 2 M_4 \sum \limits_{i} {\phi_i^4 }) \nonumber \\
+&=& (M_4 - 3M_2^2) \sum \limits_{i} {\phi_i^4 } + 3 M_2^2 \sum \limits_{i,j} {\phi_i^2 \phi_j^2} \nonumber \\
+&=& (\sum \limits_{i} {\phi_i^4 }) M_4 + 3 (\sum \limits_{i,j} {\phi_i^2 \phi_j^2} - \sum \limits_{i} {\phi_i^4 }) M_2^2 \nonumber
+\end{eqnarray}
 
 
 

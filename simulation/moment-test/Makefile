@@ -13,6 +13,7 @@ clean :
 	-rm *.md
 	-rm *.html
 	-rm build/*
+	-rm cache/*
 
 show :
 	google-chrome sim.html

@@ -45,9 +45,10 @@ Simulation:
         expected_result[['3']] <- M_3 * diag(Lambda)
         expected_result[['4_1']] <- (M_4 + (n-1) * M_2^2 ) * sum(diag(Lambda))  
         expected_result[['4_2']] <- (M_4 - 3 * M_2^2) * sum(diag(Lambda)^2) + M_2^2 * sum(diag(Lambda))^2 + 2 * M_2^2 * sum(Lambda^2)
+        expected_result[['4_3']] <- sum(phi^4) * M_4 + 3 * (sum(phi^2)^2 - sum(phi^4)) * M_2^2
         report_density <- function(x) {
           sm.density(x)
-          title(main=paste( "n:", n, ",phi: (", paste(phi,collapse=","), ")" , sep=""))
+          title(main=paste( "n:", n, ",phi: (", paste(round(phi,3),collapse=","), ")" , sep=""))
         }
         ```
         
@@ -106,4 +107,15 @@ Simulation:
         abline(v= expected_result[['4_2']],col='red')
         ```
         
+        ## Verify $latex ( \phi^Te )^4$
+        
+        ```{r phi^Te_normal_%@phi%_%@series_length%, dependson="synthetic_data_normal", echo=FALSE, message=FALSE}
+        result <- rep(NA,sample_size)
+        for(i in 1:sample_size) {
+          a <- synthetic_data[,i]
+          result[i] <- mean(a^4)
+        }
+        report_density(result)
+        abline(v = expected_result[['4_3']],col='red')
+        ```
             

@@ -4,7 +4,8 @@
  *  Created on: Jun 21, 2012
  *      Author: wush
  */
-
+#include <stdexcept>
+#include <algorithm>
 #include "MISQPlus.h"
 
 using namespace Rcpp;
@@ -36,38 +37,37 @@ SEXP MISQPlusNumericMatrixFilter(SEXP Rx, SEXP Rphi) {
 	END_RCPP
 }
 
-SEXP MISQPlusDiffMatrix(SEXP Rx) {
+//SEXP MISQPlusDiffMatrix(SEXP Rx) {
+//	BEGIN_RCPP
+//	NumericMatrix x(Rx);
+//	if (x.ncol() < 1) {
+//		throw std::invalid_argument("Invalid matrix");
+//	}
+//	NumericMatrix retval(x.nrow(), x.ncol() * (x.ncol() - 1) / 2);
+//	R_len_t retval_index(0);
+//	for (R_len_t i(1);i < x.ncol();i++) {
+//		for (R_len_t j(0); j < i; j++) {
+//			for(R_len_t k(0);k < x.nrow();k++) {
+//				retval(k, retval_index) = x(k, i) - x(k, j);
+//			}
+//			retval_index++;
+//		}
+//	}
+//	return retval;
+//	END_RCPP
+//}
+
+
+RcppExport SEXP MISQPlusDist(SEXP Rphi, SEXP Rx) {
 	BEGIN_RCPP
+	NumericVector phi(Rphi);
 	NumericMatrix x(Rx);
-	if (x.ncol() < 1) {
-		throw std::invalid_argument("Invalid matrix");
-	}
-	NumericMatrix retval(x.nrow(), x.ncol() * (x.ncol() - 1) / 2);
-	R_len_t retval_index(0);
-	for (R_len_t i(1);i < x.ncol();i++) {
-		for (R_len_t j(0); j < i; j++) {
-			for(R_len_t k(0);k < x.nrow();k++) {
-				retval(k, retval_index) = x(k, i) - x(k, j);
-			}
-			retval_index++;
-		}
-	}
-	return retval;
+	NumericMatrix diff_x(MISQPlus::DiffMatrix(x));
+	R_len_t n(x.nrow()), m(phi.size() - 1);
+
+	NumericMatrix Phi(n - m, n);
+	std::fill(Phi.begin(), Phi.end(), 0);
+
+	throw std::logic_error("TODO");
 	END_RCPP
 }
-
-SEXP MISQPlusMatrixFun1(SEXP Rx) {
-	BEGIN_RCPP
-	NumericMatrix x(Rx);
-	if (x.ncol() != x.nrow())
-		throw std::invalid_argument("Input is not a squared matrix");
-	NumericVector retval(1,0.0);
-	for(R_len_t i(0);i < x.ncol();i++) {
-		for(R_len_t j(0);j < x.nrow();j++) {
-			retval[0] += x(i,i) * x(j,j) + x(i,j) * x(i,j);
-		}
-	}
-	return retval;
-	END_RCPP
-}
-
